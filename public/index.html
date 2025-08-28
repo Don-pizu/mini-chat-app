@@ -1,18 +1,25 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-<title>Mini Chat</title> 
-</head> 
-<body> 
-	
-	<ul id="messages"></ul> 
-	<form id="form" action=""> 
-		<input id="input" autocomplete="off" /><button>Send</button> 
-	</form> 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini Chat App</title>
+  <link rel="stylesheet" href="CSS/style.css" />
+</head>
+<body>
 
-	<script src="/socket.io/socket.io.js"></script> 
+  <div id="join-container">
 
-	<script src="client.js"></script> 
- 
-</body> 
-</html> 
+    <h2>Join a Room</h2>
+    <input id="username" type="text" placeholder="Enter username" required />
+    <select id="room">
+      <option value="General">General</option>
+      <option value="Sports">Sports</option>
+      <option value="Tech">Tech</option>
+    </select>
+    <button id="joinBtn">Join</button>
+
+  </div>
+
+  
+  <script src="JS/client.js"></script>
+</body>
+</html>
