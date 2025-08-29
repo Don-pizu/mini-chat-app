@@ -8,13 +8,19 @@ Mini Chat App
 - Enter a **username**
 - Select a **room** to join  
 
-Once inside a room, they can **chat with other users in real-time** and also **logout** when finished.
+Once inside a room, they can:
+- **Chat with other users in real-time**
+- **See who is online**
+- **Know when someone is typing**
+- **Logout** when finished  
 
 ## Features
 -Real-time messaging powered by **Socket.IO**
 - Username and room selection
 - Multiple chat rooms support
 - Simple & responsive UI
+- Display total number of users online (per room)
+- Typing indicator (shows when a user is typing)
 
 
 ## Installation & Usage instructions\
@@ -68,3 +74,7 @@ git commit -m "feat: initial project setup with folder structure and README"
 git branch -M main
 git remote add origin https://github.com/Don-pizu/simple-chat-app.git
 git push -u origin main
+git commit -m "feat: mini chat app frontend and backend with username, room selection, user list and logout function
+"
+
+git commit -m "Feat: added typing indicator, total number of online users and updated README"

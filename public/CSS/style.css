@@ -17,6 +17,13 @@ body {
   height: 100vh;
 }
 
+#typingIndicator {
+  color: gray;
+  font-style: italic;
+  margin: 5px 0;
+  min-height: 20px; 
+}
+
 #sidebar {
   width: 250px;
   background: #333;

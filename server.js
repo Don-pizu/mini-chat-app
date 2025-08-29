@@ -1,3 +1,5 @@
+//server.js
+
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -35,6 +37,7 @@ io.on("connection", (socket) => {
 
     // Send updated user list
     updateRoomUsers(room);
+    emitTotalUsers();
   });
 
 
@@ -75,8 +78,36 @@ io.on("connection", (socket) => {
       .filter((u) => u.room === room)
       .map((u) => u.username);
 
-    io.to(room).emit("room users", usersInRoom);
+    io.to(room).emit("room users", {
+      users: usersInRoom,
+      count:usersInRoom.length
+    });
   }
+
+
+  // Helper: emit global total users
+  function emitTotalUsers() {
+      io.emit("total users", Object.keys(users).length);
+    };
+
+
+  // When a user starts typing
+  socket.on("typing", () => {
+    const user = users[socket.id];
+    if (user) {
+      socket.broadcast.to(user.room).emit("typing", user.username);
+    }
+  });
+
+
+  // When a user stops typing
+  socket.on("stop typing", () => {
+    const user = users[socket.id];
+    if (user) {
+      socket.broadcast.to(user.room).emit("stop typing", user.username);
+    }
+  });
+
 });
 
 const PORT = process.env.PORT || 3000;

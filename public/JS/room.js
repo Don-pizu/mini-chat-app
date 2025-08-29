@@ -7,7 +7,10 @@ const messageInput = document.getElementById("messageInput");
 const messages = document.getElementById("messages");
 const usersList = document.getElementById("users");
 const logoutBtn = document.getElementById("logoutBtn");
-
+const titleRoom = document.getElementById("titleRoom");
+const roomNameEl = document.getElementById("room-name");
+const typingIndicator = document.getElementById("typingIndicator");
+const totalUsers = document.getElementById("totalUsers");
 
 // Parse query params
 const urlParams = new URLSearchParams(window.location.search);
@@ -21,10 +24,13 @@ if (!username || !room) {
 }
 
 // Update the room name in the sidebar
- const roomNameEl = document.getElementById("room-name");
- if (roomNameEl) {
-    roomNameEl.textContent = `Users in ${room} Room`;
-  }
+if (roomNameEl) {
+  roomNameEl.textContent = `Users in ${room} Room`;
+}
+
+
+//Update title based on room
+  titleRoom.textContent = `${room} Room`;
 
 // Show chat container once loaded
 chatContainer.classList.remove("hidden");
@@ -49,14 +55,47 @@ socket.on("chat message", (msg) => {
   messages.scrollTop = messages.scrollHeight;
 });
 
+
+// Detect typing when a using is typing
+let typingTimeout;
+messageInput.addEventListener("input", () => {
+  if (messageInput.value) {
+    socket.emit("typing");
+
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      socket.emit("stop typing");
+    }, 5000); // 5s after last keypress
+  } else {
+    socket.emit("stop typing");
+  }
+});
+
+
+// Listen for typing events
+socket.on("typing", (username) => {
+  typingIndicator.style.display = "block";
+  typingIndicator.innerText = `${username} is typing...`;
+});
+
+socket.on("stop typing", (username) => {
+  typingIndicator.innerText = "";
+  typingIndicator.style.display = "none";
+});
+
+
+
 // Update user list
-socket.on("room users", (users) => {
+socket.on("room users", ({ users, count}) => {
   usersList.innerHTML = "";
   users.forEach((user) => {
     const li = document.createElement("li");
     li.textContent = user;
     usersList.appendChild(li);
   });
+  // show total users
+
+  totalUsers.textContent = `Total online users: ${count}`;
 });
 
 

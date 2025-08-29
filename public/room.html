@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Room</title>
+  <title id="titleRoom">Room</title>
   <link rel="stylesheet" href="CSS/style.css" />
 </head>
 <body>
@@ -11,13 +11,18 @@
     <div id="sidebar">
       <h3 id="room-name">Users in Room</h3>
       <ul id="users"></ul>
+      <h3 id="totalUsers"> Total online users: </h3>
       <button id="logoutBtn" onclick="logout()">Logout</button>
     </div>
 
     <div id="main-chat">
       <div id="messages"></div>
       <form id="chatForm">
+
+          <div id="typingIndicator"></div>
         <input id="messageInput" type="text" placeholder="Type a message..." required />
+
+
         <button type="submit">Send</button>
       </form>
     </div>
